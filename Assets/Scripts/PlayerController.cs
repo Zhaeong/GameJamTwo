@@ -13,21 +13,30 @@ public class PlayerController : MonoBehaviour {
     public float jumpSpeed = 8.0F;
     public float gravity = 20.0F;
     public float rotateSpeed = 3.0f;
+    private int playerNum = 1;
     //private Vector3 moveDirection = Vector3.zero;
 
     public GameObject goFlag;
 
     void Update()
     {
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown("space") && playerNum == 1)
         {
             Vector3 playerPosition = transform.position;
             Vector3 objectPosition = new Vector3(playerPosition.x, playerPosition.y, playerPosition.z -1);
             Quaternion playerRotation = Quaternion.identity; 
             Instantiate(goFlag, objectPosition, playerRotation);
         }
+        if (Input.GetKeyDown("c"))
+        {
+            transform.position = new Vector3(0, 0, 0);
+            if (playerNum == 1)
+                playerNum = 2;
+            else if (playerNum == 2)
+                playerNum = 1;
+        }
 
-           
+
     }
 
     void FixedUpdate()
@@ -37,5 +46,14 @@ public class PlayerController : MonoBehaviour {
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         float curSpeed = speed * Input.GetAxis("Vertical");
         controller.SimpleMove(forward * curSpeed);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("FlagObject") && playerNum == 2)
+        {
+            Destroy(other.gameObject);
+            Debug.Log("collided with flag");
+        }
     }
 }
