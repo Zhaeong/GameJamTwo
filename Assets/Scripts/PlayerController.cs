@@ -1,12 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
 
 
     public float speed = 6.0F;
@@ -18,6 +15,15 @@ public class PlayerController : MonoBehaviour {
 
     public GameObject goFlag;
 
+    private int count;
+    public Text countText;
+
+    void Start()
+    {
+        count = 5;
+        SetCountText();
+    }
+
     void Update()
     {
         if (Input.GetKeyDown("space") && playerNum == 1)
@@ -26,6 +32,8 @@ public class PlayerController : MonoBehaviour {
             Vector3 objectPosition = new Vector3(playerPosition.x, playerPosition.y, playerPosition.z -1);
             Quaternion playerRotation = Quaternion.identity; 
             Instantiate(goFlag, objectPosition, playerRotation);
+            count = count - 1;
+            SetCountText();
         }
         if (Input.GetKeyDown("c"))
         {
@@ -55,5 +63,10 @@ public class PlayerController : MonoBehaviour {
             Destroy(other.gameObject);
             Debug.Log("collided with flag");
         }
+    }
+
+    void SetCountText()
+    {
+        countText.text = "Count: " + count.ToString();
     }
 }
