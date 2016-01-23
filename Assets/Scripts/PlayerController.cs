@@ -22,8 +22,8 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetKeyDown("space"))
         {
             Vector3 playerPosition = transform.position;
-            Vector3 objectPosition = new Vector3(playerPosition.x + 1, playerPosition.y, playerPosition.z + 1);
-            Quaternion playerRotation = transform.rotation;
+            Vector3 objectPosition = new Vector3(playerPosition.x, playerPosition.y, playerPosition.z -1);
+            Quaternion playerRotation = Quaternion.identity; 
             Instantiate(goFlag, objectPosition, playerRotation);
         }
 
