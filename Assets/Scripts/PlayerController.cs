@@ -13,10 +13,21 @@ public class PlayerController : MonoBehaviour {
     public float jumpSpeed = 8.0F;
     public float gravity = 20.0F;
     public float rotateSpeed = 3.0f;
-    private Vector3 moveDirection = Vector3.zero;
+    //private Vector3 moveDirection = Vector3.zero;
+
+    public GameObject goFlag;
+
     void Update()
     {
+        if (Input.GetKeyDown("space"))
+        {
+            Vector3 playerPosition = transform.position;
+            Vector3 objectPosition = new Vector3(playerPosition.x + 1, playerPosition.y, playerPosition.z + 1);
+            Quaternion playerRotation = transform.rotation;
+            Instantiate(goFlag, objectPosition, playerRotation);
+        }
 
+           
     }
 
     void FixedUpdate()
