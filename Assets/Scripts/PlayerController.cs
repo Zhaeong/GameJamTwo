@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
@@ -16,8 +17,10 @@ public class PlayerController : MonoBehaviour {
     public GameObject goFlag;
 
     private int count;
+    private int nFlagsReceived;
     public Text countText;
-
+    private bool showGameOver = false;
+    private bool bLose = false;
     private CountDownScript countDownscript;
 
     void Start()
@@ -48,9 +51,9 @@ public class PlayerController : MonoBehaviour {
     void FixedUpdate()
     {
         CharacterController controller = GetComponent<CharacterController>();
+        transform.Rotate(0, Input.GetAxis("Horizontal") * rotateSpeed, 0);
         if (controller.isGrounded)
         {
-            transform.Rotate(0, Input.GetAxis("Horizontal") * rotateSpeed, 0);
             moveDirection = new Vector3(0, 0, Input.GetAxis("Vertical"));
             moveDirection = transform.TransformDirection(moveDirection);
             moveDirection *= speed;
@@ -69,7 +72,14 @@ public class PlayerController : MonoBehaviour {
             Destroy(other.gameObject);
             Debug.Log("collided with flag");
             count = count + 1;
+            nFlagsReceived += 1;
             SetCountText();
+            //Win condition
+            if (nFlagsReceived == 5)
+            {
+                Time.timeScale = 0;
+                showGameOver = true;
+            }
         }
     }
 
@@ -86,11 +96,36 @@ public class PlayerController : MonoBehaviour {
 
     public void RespawnPlayer()
     {
-        transform.position = new Vector3(0, 1, 0);
+
         if (playerNum == 1)
+        {
+            transform.position = new Vector3(0, 1, 0);
             playerNum = 2;
+        }
         else if (playerNum == 2)
-            playerNum = 1;
+        {
+            bLose = true;
+            Time.timeScale = 0;
+            showGameOver = true;
+        }
+    }
+
+    void OnGUI()
+    {
+        if (showGameOver)
+        {
+            string sGameOverText = "You Win";
+            if (bLose)
+            {
+                sGameOverText = "You Lose :(";
+            }
+            if (GUI.Button(new Rect(10, 10, 150, 100), sGameOverText))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                Time.timeScale = 1;
+            }
+        }
+
     }
 
 }
