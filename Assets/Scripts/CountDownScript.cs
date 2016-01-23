@@ -37,7 +37,7 @@ public class CountDownScript : MonoBehaviour {
 		if (restSeconds <= 0) {
 			Debug.Log("Time is Over");
             playerController = gameObject.GetComponent<PlayerController>();
-            playerController.RespawnPlayer();
+            //playerController.RespawnPlayer();
             countDownSeconds = 10;
             Awake();
 
