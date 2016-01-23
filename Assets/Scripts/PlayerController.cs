@@ -23,6 +23,9 @@ public class PlayerController : MonoBehaviour {
     private bool bLose = false;
     private CountDownScript countDownscript;
 
+	public Mesh origMesh;
+	public Mesh otherMesh;
+	
     void Start()
     {
         count = 5;
@@ -44,8 +47,6 @@ public class PlayerController : MonoBehaviour {
         {
             RespawnPlayer();
         }
-
-
     }
 
     void FixedUpdate()
@@ -97,6 +98,7 @@ public class PlayerController : MonoBehaviour {
     public void RespawnPlayer()
     {
 
+
         if (playerNum == 1)
         {
             transform.position = new Vector3(0, 1, 0);
@@ -125,6 +127,16 @@ public class PlayerController : MonoBehaviour {
                 Time.timeScale = 1;
             }
         }
+
+        transform.position = new Vector3(0, 1, 0);
+        if (playerNum == 1) {
+            playerNum = 2;
+		gameObject.GetComponent<MeshFilter>().mesh = otherMesh;
+		}
+        else if (playerNum == 2) {
+       		playerNum = 1;
+			gameObject.GetComponent<MeshFilter>().mesh = origMesh;
+		}
 
     }
 
