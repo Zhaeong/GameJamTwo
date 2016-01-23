@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour {
     public float gravity = 20.0F;
     public float rotateSpeed = 3.0f;
     private int playerNum = 1;
-    private Vector3 moveDirection = Vector3.zero;
+    //private Vector3 moveDirection = Vector3.zero;
 
     public GameObject goFlag;
 
@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour {
     {
         CharacterController controller = GetComponent<CharacterController>();
         transform.Rotate(0, Input.GetAxis("Horizontal") * rotateSpeed, 0);
+
         if (controller.isGrounded)
         {
             moveDirection = new Vector3(0, 0, Input.GetAxis("Vertical"));
