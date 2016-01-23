@@ -40,8 +40,6 @@ public class CountDownScript : MonoBehaviour {
             playerController.RespawnPlayer();
             countDownSeconds = 10;
             Awake();
-
-
         }
 		
 		//display the timer
