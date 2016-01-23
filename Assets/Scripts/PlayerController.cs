@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour {
     public float gravity = 20.0F;
     public float rotateSpeed = 3.0f;
     private int playerNum = 1;
-    //private Vector3 moveDirection = Vector3.zero;
+    private Vector3 moveDirection = Vector3.zero;
 
     public GameObject goFlag;
 
@@ -48,10 +48,18 @@ public class PlayerController : MonoBehaviour {
     void FixedUpdate()
     {
         CharacterController controller = GetComponent<CharacterController>();
-        transform.Rotate(0, Input.GetAxis("Horizontal") * rotateSpeed, 0);
-        Vector3 forward = transform.TransformDirection(Vector3.forward);
-        float curSpeed = speed * Input.GetAxis("Vertical");
-        controller.SimpleMove(forward * curSpeed);
+        if (controller.isGrounded)
+        {
+            transform.Rotate(0, Input.GetAxis("Horizontal") * rotateSpeed, 0);
+            moveDirection = new Vector3(0, 0, Input.GetAxis("Vertical"));
+            moveDirection = transform.TransformDirection(moveDirection);
+            moveDirection *= speed;
+            if (Input.GetButton("Jump"))
+                moveDirection.y = jumpSpeed;
+
+        }
+        moveDirection.y -= gravity * Time.deltaTime;
+        controller.Move(moveDirection * Time.deltaTime);
     }
 
     void OnTriggerEnter(Collider other)
