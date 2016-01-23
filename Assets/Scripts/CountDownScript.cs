@@ -10,14 +10,16 @@ public class CountDownScript : MonoBehaviour {
 	private int displaySeconds;
 	private int displayMinutes;
 	
-	public int countDownSeconds;
+	public int countDownSeconds = 10;
+
+    private PlayerController playerController;
+
+    // Use this for initialization
+    void Start () {
+
+    }
 	
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	void Awake() {
+	public void Awake() {
 		startTime = Time.time;
 	}
 
@@ -25,17 +27,22 @@ public class CountDownScript : MonoBehaviour {
 		//make sure that your time is based on when this script was first called
 		//instead of when your game started
 		float guiTime = Time.time - startTime;
-		if (restSeconds >= 0)
-			restSeconds = countDownSeconds - (guiTime);
+
+		restSeconds = countDownSeconds - (guiTime);
 		
 		//display messages or whatever here, do stuff based on your timer
 		if (restSeconds == 60) {
 			print ("One Minute Left");
 		}
-		if (restSeconds == 0) {
-			print ("Time is Over");
-			
-		}
+		if (restSeconds <= 0) {
+			Debug.Log("Time is Over");
+            playerController = gameObject.GetComponent<PlayerController>();
+            playerController.RespawnPlayer();
+            countDownSeconds = 10;
+            Awake();
+
+
+        }
 		
 		//display the timer
 		roundedRestSeconds = Mathf.CeilToInt(restSeconds);
@@ -47,6 +54,15 @@ public class CountDownScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+        /*
+        if (restSeconds <= 0)
+        {
+            Debug.Log("Time is Over");
+            playerController = gameObject.GetComponent<PlayerController>();
+            playerController.RespawnPlayer();
+            Start();
+
+
+        }*/
+    }
 }

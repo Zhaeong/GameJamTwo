@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour {
     private int count;
     public Text countText;
 
+    private CountDownScript countDownscript;
+
     void Start()
     {
         count = 5;
@@ -26,7 +28,7 @@ public class PlayerController : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKeyDown("space") && playerNum == 1)
+        if (Input.GetKeyDown("e") && playerNum == 1)
         {
             Vector3 playerPosition = transform.position;
             Vector3 objectPosition = new Vector3(playerPosition.x, playerPosition.y, playerPosition.z -1);
@@ -37,11 +39,7 @@ public class PlayerController : MonoBehaviour {
         }
         if (Input.GetKeyDown("c"))
         {
-            transform.position = new Vector3(0, 0, 0);
-            if (playerNum == 1)
-                playerNum = 2;
-            else if (playerNum == 2)
-                playerNum = 1;
+            RespawnPlayer();
         }
 
 
@@ -62,11 +60,29 @@ public class PlayerController : MonoBehaviour {
         {
             Destroy(other.gameObject);
             Debug.Log("collided with flag");
+            count = count + 1;
+            SetCountText();
         }
     }
 
     void SetCountText()
     {
         countText.text = "Count: " + count.ToString();
+        if (count == 0)
+        {
+            RespawnPlayer();
+            countDownscript = gameObject.GetComponent<CountDownScript>();
+            countDownscript.Awake();
+        }
     }
+
+    public void RespawnPlayer()
+    {
+        transform.position = new Vector3(0, 1, 0);
+        if (playerNum == 1)
+            playerNum = 2;
+        else if (playerNum == 2)
+            playerNum = 1;
+    }
+
 }
