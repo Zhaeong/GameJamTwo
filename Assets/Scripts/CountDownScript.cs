@@ -34,35 +34,24 @@ public class CountDownScript : MonoBehaviour {
 		if (restSeconds == 60) {
 			print ("One Minute Left");
 		}
-		if (restSeconds <= 0) {
-			Debug.Log("Time is Over");
+        if (restSeconds <= 0)
+        {
+            Debug.Log("Time is Over");
             playerController = gameObject.GetComponent<PlayerController>();
-            //playerController.RespawnPlayer();
+            playerController.ChangePlayer();
             countDownSeconds = 10;
             Awake();
 
 
         }
-		
-		//display the timer
-		roundedRestSeconds = Mathf.CeilToInt(restSeconds);
+
+        //display the timer
+        roundedRestSeconds = Mathf.CeilToInt(restSeconds);
 		displaySeconds = roundedRestSeconds % 60;
 		displayMinutes = roundedRestSeconds / 60; 
 		string text = string.Format("{0:00}:{1:00}", displayMinutes, displaySeconds); 
 		GUI.Label (new Rect(400, 25, 100, 30), text);
 	}
 	
-	// Update is called once per frame
-	void Update () {
-        /*
-        if (restSeconds <= 0)
-        {
-            Debug.Log("Time is Over");
-            playerController = gameObject.GetComponent<PlayerController>();
-            playerController.RespawnPlayer();
-            Start();
 
-
-        }*/
-    }
 }
